@@ -1,165 +1,71 @@
-import { DollarSign, Calendar, Users, TrendingUp, Activity, BarChart3 } from 'lucide-react';
+import { Activity, CalendarDays, CheckCircle2, Clock3, DollarSign, UsersRound } from 'lucide-react';
 import { AppSidebar } from './AppSidebar';
 
-export const DashboardScreen = () => {
-    const stats = [
-        { label: 'FACTURACIÓN', value: '$100', icon: DollarSign, color: 'bg-green-100 text-green-600' },
-        { label: 'TURNOS', value: '120', icon: Calendar, color: 'bg-blue-100 text-blue-600' },
-        { label: 'NUEVOS', value: '+25', icon: Users, color: 'bg-amber-100 text-amber-600' },
-        { label: 'TOP SERVICE', value: 'Botox', icon: TrendingUp, color: 'bg-pink-100 text-pink-600' },
-    ];
+const metrics = [
+    { label: 'Turnos de hoy', value: '18', detail: '3 por confirmar', icon: CalendarDays, tone: 'bg-violet-100 text-violet-700' },
+    { label: 'Pacientes atendidos', value: '12', detail: '+4 vs. ayer', icon: UsersRound, tone: 'bg-sky-100 text-sky-700' },
+    { label: 'Facturación del día', value: '$ 482.000', detail: '76% de la meta', icon: DollarSign, tone: 'bg-emerald-100 text-emerald-700' },
+    { label: 'Ocupación semanal', value: '82%', detail: 'Agenda saludable', icon: Activity, tone: 'bg-amber-100 text-amber-700' },
+];
 
-    const chartBars = [40, 65, 45, 80, 55, 70, 60, 85, 50, 75, 65, 90];
+const appointments = [
+    { time: '09:00', patient: 'Camila Torres', service: 'Consulta de seguimiento', status: 'Confirmado', tone: 'bg-sky-50 text-sky-700 ring-sky-200' },
+    { time: '10:30', patient: 'Martín López', service: 'Sesión · Plan facial', status: 'En sala', tone: 'bg-violet-50 text-violet-700 ring-violet-200' },
+    { time: '12:00', patient: 'Sofía Benítez', service: 'Control post tratamiento', status: 'Pendiente', tone: 'bg-amber-50 text-amber-700 ring-amber-200' },
+];
 
-    const services = [
-        { name: 'Botox', value: 35, color: 'bg-pink-400' },
-        { name: 'Rellenos', value: 25, color: 'bg-purple-400' },
-        { name: 'Limpieza Facial', value: 20, color: 'bg-blue-400' },
-        { name: 'Peeling', value: 12, color: 'bg-amber-400' },
-        { name: 'Otros', value: 8, color: 'bg-slate-400' },
-    ];
-
-    const monthlyTrend = [
-        { month: 'Ene', patients: 45, revenue: 5200 },
-        { month: 'Feb', patients: 52, revenue: 6100 },
-        { month: 'Mar', patients: 48, revenue: 5800 },
-        { month: 'Abr', patients: 61, revenue: 7200 },
-        { month: 'May', patients: 58, revenue: 6900 },
-        { month: 'Jun', patients: 72, revenue: 8500 },
-    ];
-
-    const maxPatients = Math.max(...monthlyTrend.map(m => m.patients));
-
-    return (
-        <div className="flex h-full bg-gradient-to-br from-slate-50 via-white to-primary-50/30">
-            <AppSidebar activeItem={0} />
-
-            <div className="flex flex-1 flex-col overflow-hidden p-3 sm:p-6 pb-3 sm:pb-6">
-                {/* Header */}
-                <div className="mb-3 sm:mb-6 shrink-0">
-                    <h1 className="text-lg sm:text-2xl font-bold text-slate-800">Hola, Doctor</h1>
-                    <p className="text-xs sm:text-sm text-slate-500">Resumen de actividad del centro</p>
+export const DashboardScreen = () => (
+    <div className="flex h-full min-w-0 bg-slate-50 text-slate-800">
+        <AppSidebar activeItem={0} />
+        <main className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6" aria-label="Resumen del centro">
+            <header className="mb-5 flex flex-wrap items-start justify-between gap-3">
+                <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-violet-600">Centro Demo</p>
+                    <h1 className="mt-1 text-xl font-bold tracking-tight sm:text-2xl">Buen día, Valentina</h1>
+                    <p className="mt-1 text-sm text-slate-500">Así se mueve tu centro hoy.</p>
                 </div>
+                <div className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-right shadow-sm">
+                    <p className="text-xs text-slate-500">Miércoles</p>
+                    <p className="text-sm font-semibold text-slate-700">14 de agosto</p>
+                </div>
+            </header>
 
-                {/* Stats Cards */}
-                <div className="mb-3 sm:mb-6 grid shrink-0 grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
-                    {stats.map((stat, index) => (
-                        <div
-                            key={index}
-                            className="glass-panel rounded-xl sm:rounded-2xl p-2 sm:p-4 transition-all hover:shadow-lg"
-                        >
-                            <div className="flex items-start justify-between">
-                                <div>
-                                    <span className="text-[8px] sm:text-[10px] font-medium tracking-wider text-slate-400">
-                                        {stat.label}
-                                    </span>
-                                    <p className="mt-0.5 sm:mt-1 text-base sm:text-xl font-bold text-slate-800">{stat.value}</p>
-                                </div>
-                                <div className={`rounded-lg sm:rounded-xl p-1.5 sm:p-2 ${stat.color}`}>
-                                    <stat.icon className="h-3 w-3 sm:h-4 sm:w-4" />
-                                </div>
+            <section className="grid grid-cols-2 gap-3 xl:grid-cols-4" aria-label="Indicadores de hoy">
+                {metrics.map(({ label, value, detail, icon: Icon, tone }) => (
+                    <article key={label} className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
+                        <div className="flex items-start justify-between gap-2">
+                            <div><p className="text-xs font-medium text-slate-500">{label}</p><p className="mt-2 text-lg font-bold tracking-tight sm:text-xl">{value}</p></div>
+                            <span className={`rounded-xl p-2 ${tone}`}><Icon className="h-4 w-4" aria-hidden="true" /></span>
+                        </div>
+                        <p className="mt-2 text-xs text-slate-500">{detail}</p>
+                    </article>
+                ))}
+            </section>
+
+            <section className="mt-4 grid gap-4 lg:grid-cols-[1.35fr_.9fr]">
+                <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <div className="flex items-center justify-between gap-3"><div><h2 className="font-semibold">Próximos turnos</h2><p className="text-xs text-slate-500">Agenda de hoy · 6 pendientes</p></div><span className="text-xs font-semibold text-violet-600">Ver agenda</span></div>
+                    <div className="mt-4 divide-y divide-slate-100">
+                        {appointments.map((appointment) => (
+                            <div key={appointment.time} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
+                                <time className="w-10 text-sm font-semibold text-slate-700">{appointment.time}</time>
+                                <span className="h-9 w-1 rounded-full bg-violet-400" aria-hidden="true" />
+                                <div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold">{appointment.patient}</p><p className="truncate text-xs text-slate-500">{appointment.service}</p></div>
+                                <span className={`hidden rounded-full px-2 py-1 text-[11px] font-semibold ring-1 sm:inline ${appointment.tone}`}>{appointment.status}</span>
                             </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Charts Section - Takes remaining height */}
-                <div className="grid min-h-0 flex-1 grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 overflow-auto">
-                    {/* Occupation Chart */}
-                    <div className="glass-panel flex flex-col rounded-xl sm:rounded-2xl p-2 sm:p-4">
-                        <div className="mb-2 sm:mb-4 flex shrink-0 items-center justify-between">
-                            <span className="text-xs sm:text-base font-semibold text-slate-800">Ocupación</span>
-                            <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-slate-400" />
-                        </div>
-                        <div className="flex flex-1 items-end gap-1 sm:gap-1.5">
-                            {chartBars.map((height, i) => (
-                                <div
-                                    key={i}
-                                    className="flex-1 rounded-t bg-gradient-to-t from-primary-400 to-primary-300 transition-all hover:from-primary-500 hover:to-primary-400"
-                                    style={{ height: `${height}%` }}
-                                />
-                            ))}
-                        </div>
+                        ))}
                     </div>
-
-                    {/* Weekly Revenue */}
-                    <div className="glass-panel flex flex-col rounded-xl sm:rounded-2xl p-2 sm:p-4">
-                        <div className="mb-2 sm:mb-4 flex shrink-0 items-center justify-between">
-                            <span className="text-xs sm:text-base font-semibold text-slate-800">Ingresos Semanales</span>
-                            <span className="rounded-full bg-green-100 px-1.5 sm:px-2 py-0.5 text-[8px] sm:text-[10px] font-medium text-green-600">
-                                EN VIVO
-                            </span>
-                        </div>
-                        <div className="flex flex-1 flex-col justify-center space-y-1.5 sm:space-y-3">
-                            {['Lun', 'Mar', 'Mie', 'Jue', 'Vie'].map((day, i) => (
-                                <div key={day} className="flex items-center gap-1.5 sm:gap-2">
-                                    <span className="w-6 sm:w-8 text-[10px] sm:text-xs text-slate-400">{day}</span>
-                                    <div className="h-1.5 sm:h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
-                                        <div
-                                            className="h-full rounded-full bg-gradient-to-r from-primary-400 to-primary-500"
-                                            style={{ width: `${[70, 85, 60, 90, 75][i]}%` }}
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                </article>
+                <article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+                    <div className="flex items-center gap-2"><span className="rounded-lg bg-emerald-100 p-2 text-emerald-700"><CheckCircle2 className="h-4 w-4" aria-hidden="true" /></span><div><h2 className="font-semibold">Operación al día</h2><p className="text-xs text-slate-500">Seguimiento del equipo</p></div></div>
+                    <div className="mt-5 space-y-4">
+                        {[['Confirmaciones enviadas', '15 de 18', '83%'], ['Planes con próxima sesión', '8 pacientes', '64%'], ['Evoluciones registradas', '10 de 12', '79%']].map(([label, value, progress]) => (
+                            <div key={label}><div className="flex justify-between gap-2 text-xs"><span className="text-slate-600">{label}</span><span className="font-semibold text-slate-700">{value}</span></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-violet-500" style={{ width: progress }} /></div></div>
+                        ))}
                     </div>
-
-                    {/* Services Distribution - Hidden on mobile to save space */}
-                    <div className="hidden sm:flex glass-panel flex-col rounded-xl sm:rounded-2xl p-2 sm:p-4">
-                        <div className="mb-2 sm:mb-4 flex shrink-0 items-center justify-between">
-                            <span className="text-xs sm:text-base font-semibold text-slate-800">Servicios Más Solicitados</span>
-                            <Activity className="h-3 w-3 sm:h-4 sm:w-4 text-slate-400" />
-                        </div>
-                        <div className="flex flex-1 flex-col justify-center space-y-1.5 sm:space-y-3">
-                            {services.map((service, i) => (
-                                <div key={i} className="flex items-center gap-2 sm:gap-3">
-                                    <div className="flex w-20 sm:w-28 items-center gap-1.5 sm:gap-2">
-                                        <div className={`h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full ${service.color}`} />
-                                        <span className="text-[10px] sm:text-xs text-slate-600 truncate">{service.name}</span>
-                                    </div>
-                                    <div className="h-1.5 sm:h-2 flex-1 overflow-hidden rounded-full bg-slate-100">
-                                        <div
-                                            className={`h-full rounded-full ${service.color}`}
-                                            style={{ width: `${service.value}%` }}
-                                        />
-                                    </div>
-                                    <span className="w-6 sm:w-8 text-right text-[10px] sm:text-xs font-medium text-slate-700">
-                                        {service.value}%
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Monthly Trend - Hidden on mobile to save space */}
-                    <div className="hidden sm:flex glass-panel flex-col rounded-xl sm:rounded-2xl p-2 sm:p-4">
-                        <div className="mb-2 sm:mb-4 flex shrink-0 items-center justify-between">
-                            <span className="text-xs sm:text-base font-semibold text-slate-800">Tendencia Mensual</span>
-                            <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4 text-slate-400" />
-                        </div>
-                        <div className="flex flex-1 items-end gap-1.5 sm:gap-2">
-                            {monthlyTrend.map((data, i) => (
-                                <div key={i} className="flex flex-1 flex-col items-center gap-1 sm:gap-2">
-                                    <div className="relative flex w-full flex-1 items-end">
-                                        <div
-                                            className="w-full rounded-t-lg bg-gradient-to-t from-blue-400 to-blue-300 transition-all hover:from-blue-500 hover:to-blue-400"
-                                            style={{ height: `${(data.patients / maxPatients) * 100}%` }}
-                                        />
-                                    </div>
-                                    <span className="text-[8px] sm:text-[10px] text-slate-400">{data.month}</span>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="mt-2 sm:mt-3 flex shrink-0 items-center justify-center gap-4 border-t border-slate-100 pt-2 sm:pt-3">
-                            <div className="flex items-center gap-1 sm:gap-1.5">
-                                <div className="h-1.5 w-1.5 sm:h-2 sm:w-2 rounded-full bg-blue-400" />
-                                <span className="text-[8px] sm:text-[10px] text-slate-500">Pacientes/mes</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
+                    <div className="mt-5 flex items-center gap-2 rounded-xl bg-slate-50 p-3 text-xs text-slate-600"><Clock3 className="h-4 w-4 text-violet-600" aria-hidden="true" />El próximo recordatorio sale en 24 minutos.</div>
+                </article>
+            </section>
+        </main>
+    </div>
+);

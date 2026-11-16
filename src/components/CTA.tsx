@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { ArrowRight } from 'lucide-react';
-import Link from 'next/link';
 
 export const CTA = () => {
     return (
@@ -23,11 +22,11 @@ export const CTA = () => {
                             para optimizar sus operaciones y mejorar los resultados de sus pacientes.
                         </p>
                         <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                            <Button size="lg" className="group gap-2 bg-primary px-8 text-primary-foreground hover:bg-primary/90">
-                                <Link href="/contacto" className="flex items-center gap-2">
+                            <Button size="lg" className="group gap-2 bg-primary px-8 text-primary-foreground hover:bg-primary/90" asChild>
+                                <a href={process.env.DOTBIN_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                                     Comenzar prueba gratis
                                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                                </Link>
+                                </a>
                             </Button>
                         </div>
                         <p className="mt-6 text-sm text-muted-foreground">

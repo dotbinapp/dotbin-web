@@ -45,6 +45,10 @@ export const defaultMetadata: Metadata = {
     ],
     creator: 'dotbin',
     publisher: 'dotbin',
+    icons: {
+        icon: '/favicon.svg',
+        shortcut: '/favicon.svg',
+    },
     formatDetection: {
         email: false,
         address: false,

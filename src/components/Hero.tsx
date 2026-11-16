@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play } from 'lucide-react';
-import Link from 'next/link';
+import { Play } from 'lucide-react';
 
 export const Hero = () => {
     return (
@@ -23,10 +22,10 @@ export const Hero = () => {
                 {/* CTA Buttons */}
                 <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
                     <Button variant="outline" size="lg" className="gap-2 border-foreground/20 px-8 hover:bg-foreground/5" asChild>
-                        <Link href="/contacto">
+                        <a href={process.env.DOTBIN_URL} target="_blank" rel="noopener noreferrer">
                             <Play className="h-4 w-4" />
-                            Agendar una demo
-                        </Link>
+                            Probar gratis
+                        </a>
                     </Button>
                 </div>
 

@@ -181,7 +181,6 @@ Esto ayuda a Google a entender mejor el tipo de software y sus características.
 /blog/[categoria]          → Categorías de blog
 /blog/[slug]               → Artículos individuales
 /casos-estudio             → Case studies (futuro)
-/contacto                  → Contacto (futuro)
 ```
 
 ---

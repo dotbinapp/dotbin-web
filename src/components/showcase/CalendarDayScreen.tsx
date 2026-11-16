@@ -1,171 +1,27 @@
-import { ChevronLeft, ChevronRight, Calendar, Users, Plus, MoreVertical, Clock } from 'lucide-react';
+import { CalendarDays, ChevronLeft, ChevronRight, Clock3, Plus, UserRound } from 'lucide-react';
 import { AppSidebar } from './AppSidebar';
 
-export const CalendarDayScreen = () => {
-    const timeSlots = ['07:00', '07:30', '08:00', '08:30', '09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00'];
+const appointments = [
+    { time: '09:00', patient: 'Camila Torres', service: 'Consulta inicial', professional: 'Dra. Valentina Ruiz', status: 'Confirmado', tone: 'border-l-sky-500 bg-sky-50' },
+    { time: '10:30', patient: 'Martín López', service: 'Plan facial · Sesión 3 de 6', professional: 'Dra. Valentina Ruiz', status: 'En sala', tone: 'border-l-violet-500 bg-violet-50' },
+    { time: '12:00', patient: 'Sofía Benítez', service: 'Control post procedimiento', professional: 'Dr. Ignacio Pérez', status: 'Por confirmar', tone: 'border-l-amber-500 bg-amber-50' },
+    { time: '15:30', patient: 'Julia Fernández', service: 'Limpieza profunda', professional: 'Dra. Valentina Ruiz', status: 'Confirmado', tone: 'border-l-emerald-500 bg-emerald-50' },
+];
 
-    const appointments = [
-        {
-            time: '07:00',
-            patient: 'Dotbin Patient 1',
-            doctor: 'Dr. Dotbin',
-            treatment: 'Limpieza facial profunda',
-            price: '25000',
-            duration: '45',
-            status: 'confirmado'
-        },
-        {
-            time: '08:00',
-            patient: 'Dotbin Patient 2',
-            doctor: 'Dr. Martinez',
-            treatment: 'Peeling químico',
-            price: '32000',
-            duration: '60',
-            status: 'completado'
-        },
-        {
-            time: '09:00',
-            patient: 'Dotbin Patient 3',
-            doctor: 'Dr. Dotbin',
-            treatment: 'Botox facial',
-            price: '45000',
-            duration: '30',
-            status: 'pendiente'
-        },
-        {
-            time: '10:00',
-            patient: 'Dotbin Patient 4',
-            doctor: 'Dr. Rodriguez',
-            treatment: 'Relleno de ácido hialurónico',
-            price: '38000',
-            duration: '45',
-            status: 'cancelado'
-        },
-        {
-            time: '11:00',
-            patient: 'Dotbin Patient 5',
-            doctor: 'Dr. Dotbin',
-            treatment: 'Microdermoabrasión',
-            price: '28000',
-            duration: '50',
-            status: 'confirmado'
-        }
-    ];
-
-    const getAppointmentStyles = (status: string) => {
-        switch (status) {
-            case 'completado':
-                return {
-                    container: 'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50/50',
-                    statusText: 'text-green-600',
-                    statusLabel: 'COMPLETADO'
-                };
-            case 'confirmado':
-                return {
-                    container: 'border-blue-500 bg-gradient-to-r from-blue-50 to-sky-50/50',
-                    statusText: 'text-blue-600',
-                    statusLabel: 'CONFIRMADO'
-                };
-            case 'cancelado':
-                return {
-                    container: 'border-red-400 bg-gradient-to-r from-red-50 to-rose-50/50 opacity-60',
-                    statusText: 'text-red-600',
-                    statusLabel: 'CANCELADO'
-                };
-            default:
-                return {
-                    container: 'border-primary-500 bg-gradient-to-r from-primary-50 to-pink-50/50',
-                    statusText: 'text-primary-600',
-                    statusLabel: 'PENDIENTE'
-                };
-        }
-    };
-
-    return (
-        <div className="flex h-full bg-gradient-to-br from-slate-50 via-white to-primary-50/30">
-            <AppSidebar activeItem={1} />
-
-            <div className="flex-1 overflow-hidden p-3 sm:p-6 pb-3 sm:pb-6">
-                {/* Header */}
-                <div className="mb-3 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                        <button className="rounded-lg p-1 sm:p-1.5 text-slate-400 hover:bg-slate-100">
-                            <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </button>
-                        <div className="flex items-center gap-1.5 sm:gap-2">
-                            <Calendar className="h-3 w-3 sm:h-4 sm:w-4 text-primary-500" />
-                            <span className="text-xs sm:text-base font-semibold text-slate-800">9 De Enero De 2026</span>
-                        </div>
-                        <button className="rounded-lg p-1 sm:p-1.5 text-slate-400 hover:bg-slate-100">
-                            <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </button>
-                    </div>
-
-                    <div className="flex items-center gap-2 sm:gap-3">
-                        {/* View Toggle */}
-                        <div className="flex rounded-lg sm:rounded-xl border border-slate-200 bg-white p-0.5 sm:p-1">
-                            <button className="rounded-md sm:rounded-lg bg-primary-100 px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-primary-600">
-                                Día
-                            </button>
-                            <button className="rounded-md sm:rounded-lg px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-slate-500 hover:bg-slate-50">
-                                Semana
-                            </button>
-                            <button className="rounded-md sm:rounded-lg px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-slate-500 hover:bg-slate-50">
-                                Mes
-                            </button>
-                        </div>
-
-                        {/* Add Button */}
-                        <button className="flex items-center gap-1 sm:gap-1.5 rounded-lg sm:rounded-xl bg-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-white shadow-lg transition-all hover:bg-slate-700">
-                            <Plus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                            <span className="hidden sm:inline">Nuevo</span>
-                        </button>
-                    </div>
+export const CalendarDayScreen = () => (
+    <div className="flex h-full min-w-0 bg-slate-50 text-slate-800">
+        <AppSidebar activeItem={1} />
+        <main className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6" aria-label="Agenda diaria">
+            <header className="mb-5 flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2"><button type="button" aria-label="Día anterior" className="rounded-lg p-2 text-slate-500 hover:bg-white"><ChevronLeft className="h-4 w-4" /></button><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-600">Agenda</p><h1 className="text-lg font-bold sm:text-xl">Miércoles, 14 de agosto</h1></div><button type="button" aria-label="Día siguiente" className="rounded-lg p-2 text-slate-500 hover:bg-white"><ChevronRight className="h-4 w-4" /></button></div>
+                <div className="flex items-center gap-2"><div className="rounded-xl border border-slate-200 bg-white p-1 text-xs font-medium"><span className="rounded-lg bg-violet-100 px-2 py-1.5 text-violet-700">Día</span><span className="px-2 py-1.5 text-slate-500">Semana</span><span className="px-2 py-1.5 text-slate-500">Mes</span></div><button type="button" className="inline-flex items-center gap-1 rounded-xl bg-violet-600 px-3 py-2 text-xs font-semibold text-white shadow-sm"><Plus className="h-3.5 w-3.5" />Nuevo turno</button></div>
+            </header>
+            <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm" aria-label="Turnos del día">
+                <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3"><div className="flex items-center gap-2 text-sm font-semibold"><CalendarDays className="h-4 w-4 text-violet-600" aria-hidden="true" />18 turnos programados</div><span className="text-xs text-slate-500">2 bloqueos activos</span></div>
+                <div className="divide-y divide-slate-100">
+                    {appointments.map((appointment) => (<article key={appointment.time} className="flex gap-3 p-3 sm:gap-4 sm:p-4"><time className="w-10 pt-2 text-xs font-semibold text-slate-500">{appointment.time}</time><div className={`min-w-0 flex-1 rounded-xl border-l-4 p-3 ${appointment.tone}`}><div className="flex flex-wrap items-start justify-between gap-2"><div><h2 className="text-sm font-semibold">{appointment.patient}</h2><p className="mt-0.5 text-xs text-slate-600">{appointment.service}</p></div><span className="rounded-full bg-white/80 px-2 py-1 text-[11px] font-semibold text-slate-600">{appointment.status}</span></div><div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500"><span className="inline-flex items-center gap-1"><UserRound className="h-3 w-3" aria-hidden="true" />{appointment.professional}</span><span className="inline-flex items-center gap-1"><Clock3 className="h-3 w-3" aria-hidden="true" />45 min</span></div></div></article>))}
                 </div>
-
-                {/* Calendar Grid */}
-                <div className="glass-panel h-[calc(100%-4rem)] sm:h-[calc(100%-5rem)] overflow-y-auto rounded-xl sm:rounded-2xl">
-                    {timeSlots.map((time) => {
-                        const appointment = appointments.find(app => app.time === time);
-                        return (
-                            <div key={time} className="flex border-b border-slate-100 last:border-b-0">
-                                <div className="w-10 sm:w-16 py-2 sm:py-3 pr-2 sm:pr-3 text-right text-[10px] sm:text-xs text-slate-400">{time}</div>
-                                <div className="relative flex-1 border-l border-slate-100 py-1.5 sm:py-2 pl-2 sm:pl-3">
-                                    {appointment && (
-                                        <div className={`group relative rounded-lg sm:rounded-xl border-l-2 sm:border-l-4 ${getAppointmentStyles(appointment.status).container} p-2 sm:p-3 transition-all hover:shadow-md`}>
-                                            <div className="flex items-start justify-between">
-                                                <div>
-                                                    <h4 className="text-xs sm:text-base font-semibold text-slate-800">{appointment.patient}</h4>
-                                                    <span className={`text-[8px] sm:text-[10px] font-medium tracking-wider ${getAppointmentStyles(appointment.status).statusText}`}>
-                                                        {getAppointmentStyles(appointment.status).statusLabel}
-                                                    </span>
-                                                </div>
-                                                <button className="opacity-0 transition-opacity group-hover:opacity-100">
-                                                    <MoreVertical className="h-3 w-3 sm:h-4 sm:w-4 text-slate-400" />
-                                                </button>
-                                            </div>
-                                            <div className="mt-1 sm:mt-2 flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] sm:text-xs text-slate-500">
-                                                <div className="flex items-center gap-1">
-                                                    <Users className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                                                    <span className="truncate max-w-[60px] sm:max-w-none">{appointment.doctor}</span>
-                                                </div>
-                                                <span className="hidden sm:inline">{appointment.treatment}</span>
-                                            </div>
-                                            <div className="mt-1 sm:mt-2 flex items-center justify-between">
-                                                <span className="text-xs sm:text-sm font-medium text-slate-700">$ {appointment.price}</span>
-                                                <div className="flex items-center gap-1 text-slate-400">
-                                                    <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                                                    <span className="text-[10px] sm:text-xs">{appointment.duration}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-            </div>
-        </div>
-    );
-};
+            </section>
+        </main>
+    </div>
+);

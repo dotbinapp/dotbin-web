@@ -2,7 +2,10 @@ import { Instagram } from "lucide-react";
 
 export const Footer = () => {
     const links = {
-        Producto: ['Funcionalidades', 'Soluciones', 'Precios'],
+        Producto: [
+            { label: 'Funcionalidades', href: '#product-showcase' },
+            { label: 'Soluciones', href: '#solutions' },
+        ],
     };
 
     return (
@@ -29,12 +32,12 @@ export const Footer = () => {
                             <h4 className="mb-4 text-sm font-semibold">{category}</h4>
                             <ul className="space-y-3">
                                 {items.map((item) => (
-                                    <li key={item}>
+                                    <li key={item.label}>
                                         <a
-                                            href="#"
+                                            href={item.href}
                                             className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                                         >
-                                            {item}
+                                            {item.label}
                                         </a>
                                     </li>
                                 ))}

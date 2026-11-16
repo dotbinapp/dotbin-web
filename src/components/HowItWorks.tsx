@@ -20,7 +20,7 @@ const steps = [
         icon: ImagePlus,
         number: '03',
         title: 'Agregá notas e imágenes',
-        description: 'Documentá cada sesión con notas clínicas detalladas y fotografías del tratamiento. Creá un registro visual completo.',
+        description: 'Documentá cada sesión con notas clínicas detalladas, fotografías del tratamiento e insumos utilizados. Creá un registro completo de cada atención.',
     },
     {
         icon: Eye,

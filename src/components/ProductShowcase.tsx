@@ -1,126 +1,252 @@
-import { useState, useEffect } from 'react';
+import { useState, type ComponentType, type KeyboardEvent } from 'react';
+import {
+    BellRing,
+    CalendarDays,
+    ChevronLeft,
+    ChevronRight,
+    ClipboardCheck,
+    ImageIcon,
+    LayoutDashboard,
+    ShieldCheck,
+    Sparkles,
+    UsersRound,
+} from 'lucide-react';
 import { DashboardScreen } from './showcase/DashboardScreen';
 import { CalendarDayScreen } from './showcase/CalendarDayScreen';
 import { CalendarMonthScreen } from './showcase/CalendarMonthScreen';
 import { PatientProfileScreen } from './showcase/PatientProfileScreen';
 import { TreatmentPlansScreen } from './showcase/TreatmentPlansScreen';
-import { LayoutDashboard, Calendar, Users, FileText, ChevronLeft, ChevronRight } from 'lucide-react';
+import { PatientTrackingScreen } from './showcase/PatientTrackingScreen';
+import { PatientBeforeAfterScreen } from './showcase/PatientBeforeAfterScreen';
+import { NotificationsScreen } from './showcase/NotificationsScreen';
+import { RolesPermissionsScreen } from './showcase/RolesPermissionsScreen';
 
-const screens = [
-    { component: DashboardScreen, label: 'Dashboard', icon: LayoutDashboard },
-    { component: CalendarDayScreen, label: 'Agenda Diaria', icon: Calendar },
-    { component: CalendarMonthScreen, label: 'Agenda Mensual', icon: Calendar },
-    { component: PatientProfileScreen, label: 'Ficha Médica', icon: Users },
-    { component: TreatmentPlansScreen, label: 'Planes', icon: FileText },
+type ShowcaseScreen = {
+    id: string;
+    label: string;
+    eyebrow: string;
+    description: string;
+    icon: ComponentType<{ className?: string }>;
+    component?: ComponentType;
+    highlights: string[];
+};
+
+const screens: ShowcaseScreen[] = [
+    {
+        id: 'resumen',
+        label: 'Resumen',
+        eyebrow: 'Operación diaria',
+        description: 'Indicadores claros para conocer el ritmo del centro en un vistazo.',
+        icon: LayoutDashboard,
+        component: DashboardScreen,
+        highlights: ['Actividad del día', 'Ocupación', 'Servicios destacados'],
+    },
+    {
+        id: 'agenda',
+        label: 'Agenda',
+        eyebrow: 'Turnos y disponibilidad',
+        description: 'Organizá la jornada, bloqueos y atención de cada profesional.',
+        icon: CalendarDays,
+        component: CalendarDayScreen,
+        highlights: ['Agenda por hora', 'Equipo coordinado', 'Cobro contextual'],
+    },
+    {
+        id: 'calendario',
+        label: 'Calendario',
+        eyebrow: 'Planificación',
+        description: 'Una vista mensual para anticipar la demanda y disponibilidad.',
+        icon: CalendarDays,
+        component: CalendarMonthScreen,
+        highlights: ['Vista mensual', 'Bloqueos', 'Disponibilidad'],
+    },
+    {
+        id: 'pacientes',
+        label: 'Pacientes',
+        eyebrow: 'Historia centralizada',
+        description: 'Información clínica, documentos y evolución en una misma ficha.',
+        icon: UsersRound,
+        component: PatientProfileScreen,
+        highlights: ['Ficha médica', 'Documentos', 'Historial'],
+    },
+    {
+        id: 'planes',
+        label: 'Planes',
+        eyebrow: 'Tratamientos',
+        description: 'Acompañá cada plan y sus sesiones desde el perfil del paciente.',
+        icon: ClipboardCheck,
+        component: TreatmentPlansScreen,
+        highlights: ['Planes activos', 'Sesiones', 'Seguimiento'],
+    },
+    {
+        id: 'seguimiento',
+        label: 'Seguimiento',
+        eyebrow: 'Evolución clínica',
+        description: 'Registrá avances y compará resultados antes y después con contexto.',
+        icon: ImageIcon,
+        component: PatientTrackingScreen,
+        highlights: ['Evolución clínica', 'Antes y después', 'Notas por sesión'],
+    },
+    {
+        id: 'antes-despues',
+        label: 'Antes y después',
+        eyebrow: 'Resultados visibles',
+        description: 'Compará registros con fecha y contexto para acompañar cada resultado.',
+        icon: ImageIcon,
+        component: PatientBeforeAfterScreen,
+        highlights: ['Registros fechados', 'Mismo encuadre', 'Acceso controlado'],
+    },
+    {
+        id: 'notificaciones',
+        label: 'Notificaciones',
+        eyebrow: 'Comunicación',
+        description: 'Centralizá recordatorios y reglas de comunicación con tus pacientes.',
+        icon: BellRing,
+        component: NotificationsScreen,
+        highlights: ['Recordatorios', 'Reglas por evento', 'Canales del centro'],
+    },
+    {
+        id: 'permisos',
+        label: 'Equipo y permisos',
+        eyebrow: 'Accesos del centro',
+        description: 'Dale a cada rol la información y las acciones que necesita.',
+        icon: ShieldCheck,
+        component: RolesPermissionsScreen,
+        highlights: ['Roles del equipo', 'Permisos', 'Práctica individual'],
+    },
 ];
+
+const CapabilityScreen = ({ screen }: { screen: ShowcaseScreen }) => {
+    const Icon = screen.icon;
+
+    return (
+        <div className="showcase-capability-screen">
+            <div className="showcase-capability-topbar">
+                <div className="showcase-wordmark" aria-hidden="true">.b</div>
+                <div>
+                    <p>Dotbin · Centro Demo</p>
+                    <strong>{screen.label}</strong>
+                </div>
+                <span className="showcase-status"><span />Actualizado</span>
+            </div>
+            <div className="showcase-capability-content">
+                <div className="showcase-capability-intro">
+                    <div className="showcase-capability-icon"><Icon aria-hidden="true" /></div>
+                    <div>
+                        <p>{screen.eyebrow}</p>
+                        <h3>{screen.label} con contexto para cada decisión</h3>
+                    </div>
+                </div>
+                <div className="showcase-capability-grid">
+                    {screen.highlights.map((highlight, index) => (
+                        <article key={highlight} className="showcase-capability-card">
+                            <span>0{index + 1}</span>
+                            <strong>{highlight}</strong>
+                            <p>Información ordenada y disponible para el equipo.</p>
+                        </article>
+                    ))}
+                </div>
+                <div className="showcase-capability-timeline" aria-label="Ejemplo de actividad">
+                    <span />
+                    <div><strong>Actividad registrada</strong><p>Todo el equipo ve el próximo paso con claridad.</p></div>
+                </div>
+            </div>
+        </div>
+    );
+};
 
 export const ProductShowcase = () => {
     const [activeScreen, setActiveScreen] = useState(0);
-    const [scrollY, setScrollY] = useState(0);
-    const [isHovered, setIsHovered] = useState(false);
+    const screen = screens[activeScreen];
+    const ActiveComponent = screen.component;
 
-    useEffect(() => {
-        const handleScroll = () => setScrollY(window.scrollY);
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
-    }, []);
-
-    // Auto-advance carousel every 5 seconds (pause on hover)
-    useEffect(() => {
-        if (isHovered) return;
-
-        const interval = setInterval(() => {
-            setActiveScreen((prev) => (prev === screens.length - 1 ? 0 : prev + 1));
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, [isHovered]);
-
-    const parallaxOffset = Math.min(scrollY * 0.15, 100);
-    const ActiveComponent = screens[activeScreen].component;
-
-    const handlePrev = () => {
-        setActiveScreen((prev) => (prev === 0 ? screens.length - 1 : prev - 1));
+    const selectScreen = (index: number) => {
+        setActiveScreen((index + screens.length) % screens.length);
     };
 
-    const handleNext = () => {
-        setActiveScreen((prev) => (prev === screens.length - 1 ? 0 : prev + 1));
+    const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+        const keyToIndex: Record<string, number> = {
+            ArrowLeft: index - 1,
+            ArrowRight: index + 1,
+            Home: 0,
+            End: screens.length - 1,
+        };
+        const nextIndex = keyToIndex[event.key];
+
+        if (nextIndex === undefined) return;
+
+        event.preventDefault();
+        const normalizedIndex = (nextIndex + screens.length) % screens.length;
+        selectScreen(normalizedIndex);
+        requestAnimationFrame(() => document.getElementById(`showcase-tab-${screens[normalizedIndex].id}`)?.focus());
     };
 
     return (
-        <section className="relative px-6 py-20">
-            <div className="mx-auto max-w-6xl">
-                {/* Section Header */}
-                <div className="mb-12 text-center">
-                    <span className="mb-4 inline-block rounded-full bg-primary-100 px-4 py-1.5 text-xs font-semibold tracking-wider text-primary-600">
-                        PRODUCTO
-                    </span>
-                    <h2 className="text-3xl font-bold text-slate-800 md:text-4xl">
-                        Una plataforma completa
-                    </h2>
-                    <p className="mb-4 mx-auto max-w-2xl text-slate-600">
-                        Gestiona todo tu centro médico desde una única interfaz intuitiva y elegante.
-                    </p>
+        <section id="product-showcase" className="showcase-shell" aria-labelledby="showcase-title">
+            <div className="showcase-container">
+                <header className="showcase-heading">
+                    <span className="showcase-kicker"><Sparkles aria-hidden="true" /> Producto</span>
+                    <h2 id="showcase-title">Todo el centro, en una experiencia conectada</h2>
+                    <p>Una muestra del espacio de trabajo de Dotbin: simple para el día a día y completo cuando cada detalle importa.</p>
+                </header>
+
+                <div className="showcase-feature-list" role="tablist" aria-label="Capacidades de Dotbin">
+                    {screens.map((item, index) => {
+                        const Icon = item.icon;
+                        const isActive = activeScreen === index;
+
+                        return (
+                            <button
+                                key={item.id}
+                                id={`showcase-tab-${item.id}`}
+                                className="showcase-feature-button"
+                                type="button"
+                                role="tab"
+                                aria-selected={isActive}
+                                aria-controls={`showcase-panel-${item.id}`}
+                                tabIndex={isActive ? 0 : -1}
+                                onClick={() => selectScreen(index)}
+                                onKeyDown={(event) => handleTabKeyDown(event, index)}
+                            >
+                                <Icon aria-hidden="true" />
+                                <span>{item.label}</span>
+                            </button>
+                        );
+                    })}
                 </div>
 
-                {/* Screen Selector */}
-                <div className="mb-8 flex flex-wrap justify-center gap-2">
-                    {/* {screens.map((screen, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setActiveScreen(index)}
-                            className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-medium transition-all ${activeScreen === index
-                                ? 'bg-primary-500 text-white shadow-lg shadow-primary-500/30'
-                                : 'glass-panel text-slate-600 hover:bg-primary-50 hover:text-primary-600'
-                                }`}
-                        >
-                            <screen.icon className="h-4 w-4" />
-                            {screen.label}
+                <div className="showcase-preview-frame">
+                    <div className="showcase-browser-bar">
+                        <div className="showcase-browser-dots" aria-hidden="true"><span /><span /><span /></div>
+                        <div className="showcase-browser-label"><span>Vista de producto</span><strong>dotbin.app</strong></div>
+                        <span className="showcase-browser-state" aria-live="polite">{screen.label}</span>
+                    </div>
+
+                    <div
+                        id={`showcase-panel-${screen.id}`}
+                        className="showcase-preview"
+                        role="tabpanel"
+                        aria-labelledby={`showcase-tab-${screen.id}`}
+                    >
+                        {ActiveComponent ? <ActiveComponent /> : <CapabilityScreen screen={screen} />}
+                    </div>
+                </div>
+
+                <div className="showcase-footer">
+                    <div>
+                        <p className="showcase-eyebrow">{screen.eyebrow}</p>
+                        <h3>{screen.description}</h3>
+                    </div>
+                    <div className="showcase-controls" aria-label="Cambiar vista de producto">
+                        <button type="button" onClick={() => selectScreen(activeScreen - 1)} aria-label="Ver capacidad anterior">
+                            <ChevronLeft aria-hidden="true" />
+                            <span>Anterior</span>
                         </button>
-                    ))} */}
-                </div>
-
-                {/* Browser Window */}
-                <div
-                    className="mt-8 sm:mt-24 glass-panel-strong relative overflow-hidden rounded-2xl sm:rounded-3xl shadow-2xl shadow-slate-900/10"
-                    style={{
-                        transform: `translateY(-${parallaxOffset}px)`,
-                    }}
-                    onMouseEnter={() => setIsHovered(true)}
-                    onMouseLeave={() => setIsHovered(false)}
-                >
-                    {/* Browser chrome */}
-                    <div className="flex items-center gap-1.5 sm:gap-2 border-b border-slate-200/50 bg-white/50 px-2 sm:px-4 py-2 sm:py-3">
-                        <div className="flex gap-1 sm:gap-1.5">
-                            <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-red-400" />
-                            <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-amber-400" />
-                            <div className="h-2 w-2 sm:h-3 sm:w-3 rounded-full bg-green-400" />
-                        </div>
-                        <div className="ml-2 sm:ml-4 flex-1">
-                            <div className="mx-auto w-32 sm:w-64 rounded-md sm:rounded-lg bg-slate-100 px-2 sm:px-4 py-1 sm:py-1.5 text-center text-[10px] sm:text-xs text-slate-500">
-                                dotbin.app
-                            </div>
-                        </div>
+                        <span aria-hidden="true">{String(activeScreen + 1).padStart(2, '0')} / {String(screens.length).padStart(2, '0')}</span>
+                        <button type="button" onClick={() => selectScreen(activeScreen + 1)} aria-label="Ver capacidad siguiente">
+                            <span>Siguiente</span>
+                            <ChevronRight aria-hidden="true" />
+                        </button>
                     </div>
-
-                    {/* App Preview */}
-                    <div className="aspect-[4/5] sm:aspect-[16/10] overflow-hidden">
-                        <ActiveComponent />
-                    </div>
-                </div>
-
-                {/* Dots indicator */}
-                <div className="mt-6 flex justify-center gap-2">
-                    {screens.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setActiveScreen(index)}
-                            className={`h-2 rounded-full transition-all ${activeScreen === index
-                                ? 'w-8 bg-primary'
-                                : 'w-2 bg-slate-300 hover:bg-slate-400'
-                                }`}
-                        />
-                    ))}
                 </div>
             </div>
         </section>

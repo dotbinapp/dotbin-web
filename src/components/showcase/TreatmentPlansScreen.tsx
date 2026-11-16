@@ -1,98 +1,15 @@
-import { ChevronLeft, Plus, MoreVertical, Calendar, Clock } from 'lucide-react';
+import { CalendarDays, CheckCircle2, ClipboardCheck, Plus, UsersRound } from 'lucide-react';
 import { AppSidebar } from './AppSidebar';
 
-export const TreatmentPlansScreen = () => {
-    const tabs = ['Ficha Médica', 'Historial de Tratamientos', 'Planes de Tratamiento', 'Consentimientos'];
+const plans = [{ name: 'Plan rejuvenecimiento facial', patient: 'Camila Torres', sessions: '3 de 6 sesiones', next: '21 ago · 10:30', progress: '50%', tone: 'bg-violet-500' }, { name: 'Plan cuidado de la piel', patient: 'Martín López', sessions: '1 de 4 sesiones', next: '19 ago · 16:00', progress: '25%', tone: 'bg-sky-500' }];
 
-    return (
-        <div className="flex h-full bg-gradient-to-br from-slate-50 via-white to-primary-50/30">
-            <AppSidebar activeItem={2} />
-
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6 pb-3 sm:pb-6">
-                {/* Header */}
-                <div className="mb-3 sm:mb-6 flex items-center gap-2 sm:gap-4">
-                    <button className="rounded-lg p-1 sm:p-1.5 text-slate-400 hover:bg-slate-100">
-                        <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
-                    </button>
-
-                    {/* Avatar */}
-                    <div className="h-8 w-8 sm:h-12 sm:w-12 flex items-center justify-center overflow-hidden rounded-full border border-primary/30 bg-accent shadow-lg">
-                        <div className="flex h-6 w-6 sm:h-10 sm:w-10 items-center justify-center rounded-full">
-                            <span className="text-xs sm:text-base font-bold text-primary">.b</span>
-                        </div>
-                    </div>
-
-                    <div>
-                        <h1 className="text-sm sm:text-xl font-bold text-slate-800">Dotbin Patient</h1>
-                        <p className="text-[10px] sm:text-sm text-slate-500 truncate max-w-[120px] sm:max-w-none">ventas@dotbin.com • 55550000</p>
-                    </div>
-                </div>
-
-                {/* Tabs */}
-                <div className="mb-3 sm:mb-6 flex gap-2 sm:gap-6 border-b border-slate-200 overflow-x-auto scrollbar-hide">
-                    {tabs.map((tab, index) => (
-                        <button
-                            key={tab}
-                            className={`relative pb-2 sm:pb-3 text-[10px] sm:text-sm font-medium transition-colors whitespace-nowrap ${index === 2
-                                ? 'text-primary-600'
-                                : 'text-slate-500 hover:text-slate-700'
-                                }`}
-                        >
-                            {tab}
-                            {index === 2 && (
-                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />
-                            )}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Content */}
-                <div className="mb-2 sm:mb-4 flex items-center justify-between">
-                    <h2 className="text-sm sm:text-lg font-semibold text-slate-800">Planes Activos</h2>
-                    <button className="flex items-center gap-1 sm:gap-2 rounded-lg sm:rounded-xl bg-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-white shadow-lg transition-all hover:bg-slate-700">
-                        <Plus className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
-                        <span className="hidden sm:inline">Nuevo Plan</span>
-                        <span className="sm:hidden">Nuevo</span>
-                    </button>
-                </div>
-
-                {/* Treatment Plan Card */}
-                <div className="glass-panel rounded-xl sm:rounded-2xl border-l-2 sm:border-l-4 border-l-primary-500 p-2 sm:p-4">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <span className="mb-0.5 sm:mb-1 inline-block rounded-full bg-green-100 px-1.5 sm:px-2 py-0.5 text-[8px] sm:text-[10px] font-semibold tracking-wider text-green-600">
-                                EN CURSO
-                            </span>
-                            <h3 className="text-xs sm:text-base font-semibold text-slate-800">Mesoterapia Capilar</h3>
-                            <div className="mt-0.5 sm:mt-1 flex flex-wrap items-center gap-2 sm:gap-3 text-[10px] sm:text-xs text-slate-500">
-                                <span className="flex items-center gap-1">
-                                    <Calendar className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                                    2026-01-10
-                                </span>
-                                <span className="flex items-center gap-1">
-                                    <Clock className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                                    Quincenal
-                                </span>
-                            </div>
-                        </div>
-                        <button className="rounded-lg p-1 sm:p-1.5 text-slate-400 hover:bg-slate-100">
-                            <MoreVertical className="h-3 w-3 sm:h-4 sm:w-4" />
-                        </button>
-                    </div>
-
-                    {/* Progress */}
-                    <div className="mt-2 sm:mt-4">
-                        <div className="mb-1 sm:mb-2 flex items-center justify-between text-[10px] sm:text-xs">
-                            <span className="font-medium text-slate-700">Progreso</span>
-                            <span className="text-slate-500">0 / 25 Sesiones</span>
-                        </div>
-                        <div className="h-1.5 sm:h-2 overflow-hidden rounded-full bg-slate-100">
-                            <div className="h-full w-0 rounded-full bg-gradient-to-r from-primary-400 to-primary-500" />
-                        </div>
-                        <div className="mt-0.5 sm:mt-1 text-right text-[10px] sm:text-xs text-slate-400">0% Completado</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
+export const TreatmentPlansScreen = () => (
+    <div className="flex h-full min-w-0 bg-slate-50 text-slate-800">
+        <AppSidebar activeItem={3} />
+        <main className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6" aria-label="Planes de tratamiento">
+            <header className="mb-5 flex flex-wrap items-start justify-between gap-3"><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-600">Tratamientos</p><h1 className="mt-1 text-xl font-bold">Planes del centro</h1><p className="mt-1 text-sm text-slate-500">Acompañá objetivos, sesiones y próximos pasos.</p></div><button type="button" className="inline-flex items-center gap-1 rounded-xl bg-violet-600 px-3 py-2 text-xs font-semibold text-white"><Plus className="h-3.5 w-3.5" />Crear plan</button></header>
+            <section className="grid gap-3 sm:grid-cols-3"><article className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"><ClipboardCheck className="h-4 w-4 text-violet-600" aria-hidden="true" /><p className="mt-3 text-xl font-bold">24</p><p className="text-xs text-slate-500">Planes activos</p></article><article className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"><UsersRound className="h-4 w-4 text-sky-600" aria-hidden="true" /><p className="mt-3 text-xl font-bold">31</p><p className="text-xs text-slate-500">Pacientes en plan</p></article><article className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"><CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden="true" /><p className="mt-3 text-xl font-bold">8</p><p className="text-xs text-slate-500">Sesiones esta semana</p></article></section>
+            <section className="mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><div className="flex items-center justify-between"><div><h2 className="font-semibold">En seguimiento</h2><p className="text-xs text-slate-500">Planes con una próxima sesión programada</p></div><span className="text-xs font-semibold text-violet-600">Ver todos</span></div><div className="mt-4 space-y-3">{plans.map((plan) => <article key={plan.name} className="rounded-xl border border-slate-100 p-3"><div className="flex flex-wrap items-start justify-between gap-2"><div><h3 className="text-sm font-semibold">{plan.name}</h3><p className="mt-1 text-xs text-slate-500">{plan.patient}</p></div><span className="rounded-full bg-emerald-100 px-2 py-1 text-[11px] font-semibold text-emerald-700">Activo</span></div><div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs"><span className="font-medium text-slate-700">{plan.sessions}</span><span className="inline-flex items-center gap-1 text-slate-500"><CalendarDays className="h-3.5 w-3.5" />{plan.next}</span></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-slate-100"><div className={`h-full rounded-full ${plan.tone}`} style={{ width: plan.progress }} /></div></article>)}</div></section>
+        </main>
+    </div>
+);

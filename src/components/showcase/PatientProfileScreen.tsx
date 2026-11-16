@@ -1,99 +1,15 @@
-import { ChevronLeft, Pencil, Phone, Mail, CreditCard, Calendar } from 'lucide-react';
+import { CalendarDays, FileText, Mail, Phone, ShieldCheck, UserRound } from 'lucide-react';
 import { AppSidebar } from './AppSidebar';
 
-interface PatientProfileScreenProps {
-    activeTab?: number;
-}
+const clinicalDetails = [{ label: 'Alergias', value: 'Niega alergias conocidas' }, { label: 'Antecedentes relevantes', value: 'Sin antecedentes de riesgo declarados' }, { label: 'Última actualización', value: '14 ago 2026 · Dra. Valentina Ruiz' }];
 
-export const PatientProfileScreen = ({ activeTab = 0 }: PatientProfileScreenProps) => {
-    const tabs = ['Ficha Médica', 'Historial de Tratamientos', 'Planes de Tratamiento', 'Consentimientos'];
-
-    return (
-        <div className="flex h-full bg-gradient-to-br from-slate-50 via-white to-primary-50/30">
-            <AppSidebar activeItem={2} />
-
-            <div className="flex-1 overflow-y-auto p-3 sm:p-6 pb-3 sm:pb-6">
-                {/* Header */}
-                <div className="mb-3 sm:mb-6 flex items-center gap-2 sm:gap-4">
-                    <button className="rounded-lg p-1 sm:p-1.5 text-slate-400 hover:bg-slate-100">
-                        <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
-                    </button>
-
-                    {/* Avatar */}
-                    <div className="h-8 w-8 sm:h-12 sm:w-12 flex items-center justify-center overflow-hidden rounded-full border border-primary/30 bg-accent shadow-lg">
-                        <div className="flex h-6 w-6 sm:h-10 sm:w-10 items-center justify-center rounded-full">
-                            <span className="text-xs sm:text-base font-bold text-primary">.b</span>
-                        </div>
-                    </div>
-
-
-                    <div>
-                        <h1 className="text-sm sm:text-xl font-bold text-slate-800">Dotbin Patient</h1>
-                        <p className="text-[10px] sm:text-sm text-slate-500 truncate max-w-[120px] sm:max-w-none">ventas@dotbin.com • 5550000</p>
-                    </div>
-                </div>
-
-                {/* Tabs */}
-                <div className="mb-3 sm:mb-6 flex gap-2 sm:gap-6 border-b border-slate-200 overflow-x-auto scrollbar-hide">
-                    {tabs.map((tab, index) => (
-                        <button
-                            key={tab}
-                            className={`relative pb-2 sm:pb-3 text-[10px] sm:text-sm font-medium transition-colors whitespace-nowrap ${index === activeTab
-                                ? 'text-primary-600'
-                                : 'text-slate-500 hover:text-slate-700'
-                                }`}
-                        >
-                            {tab}
-                            {index === activeTab && (
-                                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500" />
-                            )}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Content */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-6">
-                    {/* Medical Info */}
-                    <div className="sm:col-span-2">
-                        <div className="mb-2 sm:mb-4 flex items-center justify-between">
-                            <h2 className="text-sm sm:text-lg font-semibold text-slate-800">Información Médica</h2>
-                            <button className="flex items-center gap-1 sm:gap-2 rounded-lg sm:rounded-xl bg-slate-800 px-2 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-medium text-white shadow-lg transition-all hover:bg-slate-700">
-                                <Pencil className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-                                <span className="hidden sm:inline">Editar ficha médica</span>
-                                <span className="sm:hidden">Editar</span>
-                            </button>
-                        </div>
-
-                        <div className="glass-panel rounded-xl sm:rounded-2xl p-2 sm:p-4 mb-2 sm:mb-4">
-                            <div className="mb-1 sm:mb-2 text-[8px] sm:text-[10px] font-medium tracking-wider text-slate-400">Alergias</div>
-                            <div className="text-xs sm:text-base font-medium text-slate-800">Penicilina</div>
-                        </div>
-
-                        <div className="glass-panel rounded-xl sm:rounded-2xl p-2 sm:p-4">
-                            <div className="mb-1 sm:mb-2 text-[8px] sm:text-[10px] font-medium tracking-wider text-slate-400">Cirugias</div>
-                            <div className="text-xs sm:text-base font-medium text-slate-800">Apendicectomía</div>
-                        </div>
-                    </div>
-
-                    {/* Contact Details */}
-                    <div>
-                        <h2 className="mb-2 sm:mb-4 text-sm sm:text-lg font-semibold text-slate-800">Detalles de contacto</h2>
-                        <div className="grid grid-cols-2 sm:grid-cols-1 gap-2 sm:space-y-3">
-                            {[
-                                { label: 'TELÉFONO', value: '55500000', icon: Phone },
-                                { label: 'DNI', value: '00000001', icon: CreditCard },
-                                { label: 'EMAIL', value: 'ventas@dotbin.com', icon: Mail },
-                                { label: 'VISITAS TOTALES', value: '12', icon: Calendar },
-                            ].map((item) => (
-                                <div key={item.label} className="glass-panel rounded-lg sm:rounded-xl p-2 sm:p-3">
-                                    <div className="mb-0.5 sm:mb-1 text-[8px] sm:text-[10px] font-medium tracking-wider text-slate-400">{item.label}</div>
-                                    <div className="text-[10px] sm:text-sm font-medium text-slate-800 truncate">{item.value}</div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    );
-};
+export const PatientProfileScreen = () => (
+    <div className="flex h-full min-w-0 bg-slate-50 text-slate-800">
+        <AppSidebar activeItem={2} />
+        <main className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6" aria-label="Ficha del paciente">
+            <header className="flex flex-wrap items-start justify-between gap-3"><div className="flex items-center gap-3"><span className="grid h-11 w-11 place-items-center rounded-full bg-violet-100 text-sm font-bold text-violet-700">CT</span><div><p className="text-xs font-semibold uppercase tracking-[0.14em] text-violet-600">Paciente</p><h1 className="text-xl font-bold">Camila Torres</h1><p className="text-xs text-slate-500">Historia clínica #00482 · Activa</p></div></div><span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Paciente activa</span></header>
+            <nav className="mt-5 flex gap-4 overflow-x-auto border-b border-slate-200 text-xs font-medium" aria-label="Secciones de la ficha"><span className="border-b-2 border-violet-600 px-1 pb-3 text-violet-700">Resumen</span><span className="px-1 pb-3 text-slate-500">Evolución</span><span className="px-1 pb-3 text-slate-500">Planes</span><span className="px-1 pb-3 text-slate-500">Documentos</span></nav>
+            <section className="mt-4 grid gap-4 lg:grid-cols-[1.3fr_.8fr]"><article className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><div className="flex items-center justify-between"><div><h2 className="font-semibold">Ficha clínica</h2><p className="text-xs text-slate-500">Datos disponibles para la atención</p></div><FileText className="h-5 w-5 text-violet-600" aria-hidden="true" /></div><dl className="mt-4 divide-y divide-slate-100">{clinicalDetails.map(({ label, value }) => <div key={label} className="py-3 first:pt-0 last:pb-0"><dt className="text-xs text-slate-500">{label}</dt><dd className="mt-1 text-sm font-medium text-slate-700">{value}</dd></div>)}</dl></article><aside className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"><h2 className="font-semibold">Contacto y actividad</h2><div className="mt-4 space-y-3 text-xs">{[[Phone, '+54 9 11 5555 0248'], [Mail, 'camila.torres@email.com'], [CalendarDays, '12 visitas registradas'], [ShieldCheck, 'Consentimiento vigente']].map(([Icon, value]) => { const DetailIcon = Icon as typeof Phone; return <div key={value as string} className="flex items-center gap-2 text-slate-600"><DetailIcon className="h-4 w-4 text-violet-600" aria-hidden="true" />{value as string}</div>; })}</div><div className="mt-5 rounded-xl bg-violet-50 p-3"><div className="flex items-center gap-2 text-xs font-semibold text-violet-800"><UserRound className="h-4 w-4" aria-hidden="true" />Próximo turno</div><p className="mt-1 text-xs text-violet-700">21 ago · Control post tratamiento</p></div></aside></section>
+        </main>
+    </div>
+);

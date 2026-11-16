@@ -1,72 +1,63 @@
-import { LayoutDashboard, Calendar, Users, Settings, Building2, LogOut } from 'lucide-react';
+import {
+    BellRing,
+    CalendarDays,
+    ClipboardCheck,
+    LayoutDashboard,
+    Settings2,
+    ShieldCheck,
+    UsersRound,
+} from 'lucide-react';
 
 interface AppSidebarProps {
     activeItem?: number;
 }
 
+const primaryNavigation = [
+    { label: 'Resumen', icon: LayoutDashboard },
+    { label: 'Agenda', icon: CalendarDays },
+    { label: 'Pacientes', icon: UsersRound },
+    { label: 'Planes', icon: ClipboardCheck },
+];
+
+const secondaryNavigation = [
+    { label: 'Notificaciones', icon: BellRing },
+    { label: 'Equipo y permisos', icon: ShieldCheck },
+    { label: 'Configuración', icon: Settings2 },
+];
+
 export const AppSidebar = ({ activeItem = 0 }: AppSidebarProps) => {
-    const menuItems = [
-        { icon: LayoutDashboard },
-        { icon: Calendar },
-        { icon: Users },
-        { icon: Settings },
-        { icon: Building2 },
-    ];
+    const renderItem = (item: (typeof primaryNavigation)[number], index: number, isSecondary = false) => {
+        const Icon = item.icon;
+        const isActive = !isSecondary && index === activeItem;
+
+        return (
+            <li key={item.label}>
+                <span className={`showcase-app-nav-item ${isActive ? 'is-active' : ''}`} aria-current={isActive ? 'page' : undefined}>
+                    <Icon aria-hidden="true" />
+                    <span>{item.label}</span>
+                </span>
+            </li>
+        );
+    };
 
     return (
-        <>
-            {/* Desktop Sidebar */}
-            <div className="hidden sm:flex w-16 flex-col items-center border-r border-slate-200/50 bg-white/30 py-4">
-                {/* Logo */}
-                <div className="mb-8 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 text-white shadow-lg shadow-primary-500/30">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-primary/30 bg-accent">
-                        <span className="font-bold text-primary">.b</span>
-                    </div>
-                </div>
-
-                {/* Menu Items */}
-                <div className="flex flex-1 flex-col gap-2">
-                    {menuItems.map((item, index) => (
-                        <button
-                            key={index}
-                            className={`flex h-10 w-10 items-center justify-center rounded-xl transition-all ${index === activeItem
-                                ? 'bg-primary-100 text-primary-600'
-                                : 'text-slate-400 hover:bg-slate-100 hover:text-slate-600'
-                                }`}
-                        >
-                            <item.icon className="h-5 w-5" />
-                        </button>
-                    ))}
-                </div>
-
-                {/* Logout */}
-                <button className="flex h-10 w-10 items-center justify-center rounded-xl text-slate-400 transition-all hover:bg-slate-100 hover:text-slate-600">
-                    <LogOut className="h-5 w-5" />
-                </button>
+        <aside className="showcase-app-sidebar" aria-label="Navegación de la aplicación de muestra">
+            <div className="showcase-app-brand">
+                <span aria-hidden="true">.b</span>
+                <strong>dotbin</strong>
             </div>
 
-            {/* Mobile Compact Sidebar */}
-            <div className="sm:hidden flex w-10 flex-col items-center border-r border-slate-200/50 bg-white/30 py-2">
-                {/* Logo */}
-                <div className="mb-4 flex h-6 w-6 items-center justify-center rounded-lg border border-primary/30 bg-accent">
-                    <span className="text-[10px] font-bold text-primary">.b</span>
-                </div>
+            <nav className="showcase-app-navigation" aria-label="Secciones principales">
+                <p>Centro</p>
+                <ul>{primaryNavigation.map((item, index) => renderItem(item, index))}</ul>
+                <p>Gestión</p>
+                <ul>{secondaryNavigation.map((item, index) => renderItem(item, index, true))}</ul>
+            </nav>
 
-                {/* Menu Items */}
-                <div className="flex flex-1 flex-col gap-1">
-                    {menuItems.slice(0, 4).map((item, index) => (
-                        <button
-                            key={index}
-                            className={`flex h-6 w-6 items-center justify-center rounded-lg transition-all ${index === activeItem
-                                ? 'bg-primary-100 text-primary-600'
-                                : 'text-slate-400'
-                                }`}
-                        >
-                            <item.icon className="h-3 w-3" />
-                        </button>
-                    ))}
-                </div>
+            <div className="showcase-app-account">
+                <span>DR</span>
+                <div><strong>Centro Demo</strong><small>Administración</small></div>
             </div>
-        </>
+        </aside>
     );
 };

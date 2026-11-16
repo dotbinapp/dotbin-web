@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
 
 export const Navbar = () => {
     return (
@@ -13,7 +12,7 @@ export const Navbar = () => {
                 </div>
 
                 <div className="hidden items-center gap-8 md:flex">
-                    <a href="#features" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                    <a href="#product-showcase" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
                         Funcionalidades
                     </a>
                     <a href="#solutions" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
@@ -25,10 +24,10 @@ export const Navbar = () => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                    <Button variant="default" size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                        <Link href="/contacto">
+                    <Button variant="default" size="sm" className="bg-primary text-primary-foreground hover:bg-primary/90" asChild>
+                        <a href={process.env.DOTBIN_URL} target="_blank" rel="noopener noreferrer">
                             Comenzar gratis
-                        </Link>
+                        </a>
                     </Button>
                 </div>
             </div>
